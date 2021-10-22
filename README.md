@@ -6,26 +6,26 @@ A general overview of the packages in this repository.
 
 More information about a package can be found in its own README.
 
-### api
+### [api](https://github.com/sevbesau/packages/tree/main/api)
 Simple api service helper for calling an api.
 
-### auth
+### [auth](https://github.com/sevbesau/packages/tree/main/auth)
 Authentication routes and middlewares.
 
-### db
+### [db](https://github.com/sevbesau/packages/tree/main/db)
 Easely connect to a mongodb database.
 
-### email
+### [email](https://github.com/sevbesau/packages/tree/main/email)
 Email templating engine and mailjet wrapper.
 
-### envalidate
+### [envalidate](https://github.com/sevbesau/packages/tree/main/envalidate)
 Makes sure all the required envs are set.
 
-### files
+### [files](https://github.com/sevbesau/packages/tree/main/files)
 File upload client helper and server middlewares.
 
-### id
+### [id](https://github.com/sevbesau/packages/tree/main/id)
 Unify id generation.
 
-### scripts
+### [scripts](https://github.com/sevbesau/packages/tree/main/scripts)
 A collection of scripts to ease development.
