@@ -63,6 +63,7 @@ const generate_magiclink = (appUrl, mailsFrom) => {
     const session = await new Sessions({ user: user._id }).save();
     const url = `${appUrl}/auth/magic-link/${session._id}`;
     const success = await email.send(mailsFrom, user.email, 'magic_link', { url, firstname: user.firstname });
+    if (!success) return res.status(500).json({ success, message: 'something went wrong, please try again later!' })
     return res.json({ success, message: 'mail is on its way, check your inbox!' });
   };
 };

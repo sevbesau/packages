@@ -2,6 +2,8 @@ const FormData = require('form-data');
 const axios = require('axios');
 const fs = require('fs');
 
+// TODO use api package
+
 /**
  * Upload a file to a specific url using formdata
  * @param {String} url the url to upload to
