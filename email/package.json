@@ -1,0 +1,14 @@
+{
+  "name": "@siliconminds/email",
+  "version": "1.0.2",
+  "description": "api email module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "seppe van besauw",
+  "license": "ISC",
+  "dependencies": {
+    "node-mailjet": "^3.3.4"
+  }
+}

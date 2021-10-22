@@ -1,0 +1,17 @@
+{
+  "name": "@siliconminds/scripts",
+  "version": "1.3.0",
+  "description": "api scripts for siliconminds",
+  "main": "index.js",
+  "bin": {
+    "generate": "./generate",
+    "addUser": "./addUser"
+  },
+  "author": "seppe van besauw",
+  "license": "ISC",
+  "dependencies": {
+    "@siliconminds/auth": "^2.2.5",
+    "@siliconminds/db": "^1.0.3",
+    "bcryptjs": "^2.4.3"
+  }
+}

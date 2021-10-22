@@ -1,0 +1,121 @@
+#!/usr/bin/env node
+
+const fs = require('fs/promises');
+const path = require('path');
+
+const snippets = require('./snippets');
+
+const help = message => {
+  console.log(`${message}
+  
+Usage: generate target name[options]
+
+  -h, --help          show this page
+  -c, --crud          boilerplate crud routes
+  -r, --roles         required roles for access(csv)
+    `);
+  process.exit();
+};
+
+const parse_args = async args => {
+  // required args
+  if (args.length < 2) help('Insufficient arguments!');
+
+  const options = {
+    snippets_root: path.join(require.main.path, 'snippets'),
+    project_root: path.join(process.cwd(), 'src'),
+    target: args.shift(),
+    name: args.shift(),
+    roles: undefined,
+    crud: false,
+  };
+
+  // validate project root
+  if (!(await (await (fs.readdir(path.join(options.project_root, '..')))).includes('package.json')))
+    help('Script must be executed from project root');
+
+  while (args.length > 0) {
+    const arg = args.shift();
+    switch (arg) {
+      case '-h':
+      case '--help':
+        help('Generate boilerplate code');
+        break;
+      case '-c':
+      case '--crud':
+        options.crud = true;
+        break;
+      case '-r':
+      case '--roles':
+        if (args.length < 1) help('No roles specified!');
+        const roles = args.shift();
+        options.roles = roles.split(',');
+        break;
+    };
+  };
+
+  return options;
+}
+
+const targets = {
+  route: async options => {
+    let routes;
+    if (options.crud) {
+      const modelName = `${options.name[0].toUpperCase()}${options.name.substring(1)}`;
+      routes = snippets.routes.crud.replace(/{{\s*model\s*}}/g, modelName);
+      // generate the model if it does not exist yet
+      const modelsRoot = path.join(options.project_root, 'models');
+      const modelFileName = `${options.name}.js`;
+      if (!(await fs.readdir(modelsRoot)).includes(modelFileName)) await targets.model(options);
+    } else {
+      routes = snippets.routes.router;
+    }
+    routes = routes.replace(/{{\s*roles\s*}}/g, JSON.stringify(options.roles) || '');
+    const routesRoot = path.join(options.project_root, 'routes');
+    const routesFileName = `${options.name}.js`;
+    // dont overwrite existing routes!
+    if ((await fs.readdir(routesRoot)).includes(routesFileName)) help(`Routes "${options.name}" exist!`);
+    await fs.writeFile(path.join(routesRoot, routesFileName), routes);
+  },
+  model: async options => {
+    const model = snippets.model.replace(/{{\s*name\s*}}/g, options.name);
+    const modelsRoot = path.join(options.project_root, 'models');
+    const modelFileName = `${options.name}.js`;
+    // dont overwrite existing models!
+    if ((await fs.readdir(modelsRoot)).includes(modelFileName)) help(`Model "${options.name}" exists!`);
+    await fs.writeFile(path.join(modelsRoot, modelFileName), model);
+  },
+  page: async options => {
+    const pageName = path.basename(options.name)
+    const dirname = path.dirname(options.name);
+    const pageFileName = `${pageName}.vue`;
+    const page = snippets.page.replace(/{{\s*name\s*}}/g, pageName);
+    const pagePath = path.join(options.project_root, 'pages', dirname);
+    // make sure the dir exists
+    try {
+      await fs.mkdir(pagePath, { recursive: true });
+    } catch (error) {
+      if (error.code != 'EEXIST') throw error;
+    }
+    // dont overwrite existing pages!
+    if ((await fs.readdir(pagePath)).includes(pageFileName)) help(`{Page} "${pageName}" exists!`);
+    await fs.writeFile(path.join(pagePath, pageFileName), page);
+  },
+
+}
+
+const main = async args => {
+  // parse args and generate options
+  const options = await parse_args(args);
+
+  // validate target
+  if (!targets[options.target]) help(`Unknown target: "${options.target}"`);
+
+  // execute the target
+  await targets[options.target](options);
+}
+
+(async () => {
+  // ignore the first two args ()
+  await main(process.argv.slice(2));
+})();

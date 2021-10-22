@@ -1,0 +1,83 @@
+#!/usr/bin/env node
+
+const bcrypt = require('bcryptjs');
+const db = require('@siliconminds/db');
+const Users = require('@siliconminds/auth/models/users');
+
+const help = message => {
+  console.log(`${message}
+  
+Usage: addUser database [options]
+
+  -h, --help          show this page
+  -e, --email         (required) email for the user 
+  -p, --password      (required) password for the user 
+  -f, --firstname     firstname for the user 
+  -l, --lastname      lastname for the user 
+  -a, --address       address of the database
+`);
+  process.exit();
+};
+
+const parse_args = async args => {
+  // required args
+  if (args.length < 1) help('Insufficient arguments!');
+
+  const db_name = args.shift();
+
+  const options = {};
+
+  while (args.length > 0) {
+    const arg = args.shift();
+    switch (arg) {
+      case '-h':
+      case '--help':
+        help('Generate boilerplate code');
+        break;
+      case '-e':
+      case '--email':
+        options.email = args.shift();
+        break;
+      case '-f':
+      case '--firstname':
+        options.firstname = args.shift();
+        break;
+      case '-l':
+      case '--lastname':
+        options.lastname = args.shift();
+        break;
+      case '-p':
+      case '--password':
+        options.password = (await bcrypt.hash(args.shift(), 8));
+        break;
+      case '-a':
+      case '--address':
+        options.address = args.shift();
+        break;
+
+    };
+  };
+  
+  options.mongo_url = `mongodb://${options.address || 'localhost:27017'}/${db_name}`;
+
+  if (!options.mongo_url || !options.email || !options.password) help("Missing arguments!");
+
+  return options;
+}
+
+const main = async args => {
+  // parse args and generate options
+  const options = await parse_args(args);
+
+  await db.connect(options.mongo_url);
+  
+  delete options.mongo_url;
+  await new Users(options).save();
+  console.log('user created!');
+  process.exit();
+}
+
+(async () => {
+  // ignore the first two args ()
+  await main(process.argv.slice(2));
+})();
