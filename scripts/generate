@@ -77,6 +77,19 @@ const targets = {
     if ((await fs.readdir(routesRoot)).includes(routesFileName)) help(`Routes "${options.name}" exist!`);
     await fs.writeFile(path.join(routesRoot, routesFileName), routes);
   },
+  store: async options => {
+    let store;
+    if (options.crud) {
+      store = snippets.store.crud.replace(/{{\s*name\s*}}/g, options.name);
+    } else {
+      store = snippets.store.blank;
+    }
+    const storeRoot = path.join(options.project_root, 'store', 'modules');
+    const storeFileName = `${options.name}.js`;
+    // dont overwrite existing modules!
+    if ((await fs.readdir(storeRoot)).includes(storeFileName)) help(`Store "${options.name}" exist!`);
+    await fs.writeFile(path.join(storeRoot, storeFileName), store);
+  },
   model: async options => {
     const model = snippets.model.replace(/{{\s*name\s*}}/g, options.name);
     const modelsRoot = path.join(options.project_root, 'models');
