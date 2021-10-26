@@ -26,7 +26,9 @@ class Api {
    * @returns {T} The server response
    */
   async request(method, endpoint = '', data = {}, options = false) {
-    const headers = { ...options?.headers };
+    // build the headers
+    let headers = {};
+    if (options.headers) headers = { ...options.headers };
 
     // build the query string
     let query = '';

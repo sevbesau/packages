@@ -1,11 +1,19 @@
 {
   "name": "@siliconminds/api",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "api helper",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "seppe van besauw",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sevbesau/packages.git",
+    "directory": "packages/api"
+  },
+  "dependencies": {
+    "axios": "^0.23.0"
+  }
 }
