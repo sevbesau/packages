@@ -58,6 +58,7 @@ class Api {
       } else {
         // setting up the request failed
         console.error(error);
+        result = false;
       }
     }
     return result;
