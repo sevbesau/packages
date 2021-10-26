@@ -4,8 +4,16 @@
   "description": "id generator",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "seppe van besauw",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sevbesau/packages.git",
+    "directory": "packages/id"
+  }
 }
