@@ -8,7 +8,7 @@ $ npm install @siliconminds/scripts
 
 ## Scripts
 ### generate
-Generate basic scaffolting for speeding up development
+Generate basic scafolting for speeding up development
 
 #### Example usage
 In your project root:
