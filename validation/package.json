@@ -1,0 +1,10 @@
+{
+  "name": "@siliconminds/validation",
+  "version": "1.0.0",
+  "description": "vue validation mixin and validators",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "seppe van besauw",
+  "license": "ISC"
+}
