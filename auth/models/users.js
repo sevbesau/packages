@@ -6,7 +6,10 @@ const Schema = new mongoose.Schema({
   email: String,
   password: String,
   blocked: { type: Boolean, default: false },
-  roles: [String],
+  roles: {
+    type: Array,
+    default: ['user']
+  }, 
   resetTokens: [String],
   lastActive: Date,
 }, {

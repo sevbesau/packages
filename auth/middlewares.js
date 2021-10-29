@@ -15,8 +15,8 @@ const Users = require('./models/users');
  */
 const check = roles => {
   return async function (req, res, next) {
-    if (!roles) return next();
-    if (!req.cookies.authorization && !req.headers.authorization)
+    if (!roles) roles = ['user'];
+    if (!(req.cookies && req.cookies.authorization) && !req.headers.authorization)
       return res.status(400).json({ success: false, error: 'no auth token set' });
     if (!/Bearer /.test(req.cookies.authorization) && !/Bearer /.test(req.headers.authorization))
       return res.status(400).json({ success: false, error: 'invalid auth format' });
@@ -31,9 +31,8 @@ const check = roles => {
       return res.status(400).json({ success: false, error: 'invalid token' });
     }
     if (!Array.isArray(roles)) roles = [roles];
-    roles = roles.filter(role => role != 'user');
     if (roles.some(role => !session.user.roles.includes(role)))
-      return res.status(403).json({ success: false, error: 'insufficient permisions' });
+      return res.status(403).json({ success: false, error: 'insufficient permissions' });
     req.session = session._id;
     req.user = {
       firstname:  session.user.firstname,
@@ -118,7 +117,6 @@ const register = () => {
  * @returns {function} express middleware
  */
 const new_pass_reset = (appUrl, mailsFrom) => {
-  // TODO check if mailsfrom and appurl is set
   if (!appUrl || !mailsFrom) throw new Error('Missing arguments');
   return async function (req, res, next) {
     if (!req.body.email)
@@ -129,8 +127,9 @@ const new_pass_reset = (appUrl, mailsFrom) => {
     const token = id.generate(20);
     await Users.updateOne({ email: req.body.email }, { $push: { resetTokens: token } }).exec();
     const url = `${appUrl}/auth/reset-password/${token}`;
-    await email.send(mailsFrom, req.body.email, 'pass_reset', { url, firstname: req.body.firstname });
-    return res.status(200).json({ success: true });
+    const success = await email.send(mailsFrom, req.body.email, 'pass_reset', { url, firstname: user.firstname });
+    if (!success) return res.status(500).json({ success, message: 'something went wrong, please try again later!' })
+    return res.status(200).json({ success, message: 'mail is on its way, check your inbox!' });
   };
 };
 

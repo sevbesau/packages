@@ -2,10 +2,22 @@
   "name": "@siliconminds/auth",
   "version": "2.2.5",
   "description": "api auth middlewares module",
+  "scripts": {
+    "test": "jest --watch --testTimeout=10000 --detectOpenHandles --coverage"
+  },
   "main": "index.js",
   "author": "seppe van besauw",
   "license": "ISC",
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/models/"
+    ]
+  },
   "dependencies": {
+    "@siliconminds/db": "^1.0.3",
+    "@siliconminds/email": "^1.0.2",
     "@siliconminds/envalidate": "^1.0.0",
     "@siliconminds/id": "^1.0.0",
     "bcryptjs": "^2.4.3",
@@ -17,5 +29,9 @@
     "type": "git",
     "url": "https://github.com/sevbesau/packages.git",
     "directory": "packages/auth"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1",
+    "supertest": "^6.1.6"
   }
 }
