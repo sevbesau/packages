@@ -18,6 +18,9 @@ Easely connect to a mongodb database.
 ### [email](https://github.com/sevbesau/packages/tree/main/email)
 Email templating engine and mailjet wrapper.
 
+### [pdf](https://github.com/sevbesau/packages/tree/main/pdf)
+Pdf generator
+
 ### [envalidate](https://github.com/sevbesau/packages/tree/main/envalidate)
 Makes sure all the required envs are set.
 
