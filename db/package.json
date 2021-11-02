@@ -1,10 +1,10 @@
 {
   "name": "@siliconminds/db",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "database helper",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch --coverage"
   },
   "author": "seppe van besauw",
   "license": "ISC",
@@ -15,5 +15,8 @@
     "type": "git",
     "url": "https://github.com/sevbesau/packages.git",
     "directory": "packages/db"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
   }
 }
