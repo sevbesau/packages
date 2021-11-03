@@ -23,6 +23,14 @@ For more information use:
 $ npx generate -h
 ```
 
+#### Supported generation targets
+- API
+  - routes <name> [crud] [roles]
+  - model <name>
+- APP
+  - page <path> 
+  - store <name> [crud]
+
 ### addUser
 Adds a new user document to the users collection of a mongodb
 
