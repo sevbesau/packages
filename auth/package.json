@@ -1,6 +1,6 @@
 {
   "name": "@siliconminds/auth",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "api auth middlewares module",
   "scripts": {
     "test": "jest --watch --testTimeout=10000 --detectOpenHandles --coverage"
@@ -8,6 +8,11 @@
   "main": "index.js",
   "author": "seppe van besauw",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sevbesau/packages.git",
+    "directory": "packages/auth"
+  },
   "jest": {
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
@@ -24,11 +29,6 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "mongoose": "^6.0.8"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sevbesau/packages.git",
-    "directory": "packages/auth"
   },
   "devDependencies": {
     "jest": "^27.3.1",
