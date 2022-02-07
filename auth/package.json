@@ -1,6 +1,6 @@
 {
   "name": "@siliconminds/auth",
-  "version": "2.2.6",
+  "version": "2.3.0",
   "description": "api auth middlewares module",
   "scripts": {
     "test": "jest --watch --testTimeout=10000 --detectOpenHandles --coverage"
