@@ -1,7 +1,5 @@
 const express = require('express');
 
-const middlewares = require('./middlewares');
-
 const router = express.Router();
 
 /**
@@ -10,8 +8,14 @@ const router = express.Router();
  * @param {String} mailsFrom email sender address
  * @returns {Object} express router
  */
-const routes = (appUrl, mailsFrom) => {
+const routes = (appUrl, mailsFrom, Users = false) => {
+  if (Users) process.Users = Users;
+  else process.Users = require('./models/users');
+
+  const middlewares = require('./middlewares');
+
   router.get('/check', middlewares.check('user'), (req, res) => res.send({ success: true }));
+  router.get('/check/admin', middlewares.check('admin'), (req, res) => res.send({ success: true }));
   router.get('/me', middlewares.check('user'), (req, res) => res.json({ success: true, user: req.user }));
   router.post('/register', middlewares.register());
   router.post('/login', middlewares.login());
@@ -20,6 +24,7 @@ const routes = (appUrl, mailsFrom) => {
   router.post('/pass-reset', middlewares.new_pass_reset(appUrl, mailsFrom));
   router.put('/pass-reset', middlewares.pass_reset());
   router.put('/logout', middlewares.check('user'), middlewares.logout());
+  // TODO invite routes
   return router;
 };
 
